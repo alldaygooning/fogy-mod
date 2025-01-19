@@ -17,6 +17,7 @@ public class FogyMain {
 		MinecraftForge.EVENT_BUS.register(this);
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+
 		ItemRegistry.setModEventBus(modEventBus);
 	}
 
@@ -24,6 +25,8 @@ public class FogyMain {
 		StickToothpick.register();
 	}
 }
+
+
 //	private void commonSetup(final FMLCommonSetupEvent event) {
 //
 //	}

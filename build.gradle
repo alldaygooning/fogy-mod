@@ -12,7 +12,7 @@ group = mod_group_id
 base {
     archivesName = mod_id
 }
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
@@ -35,6 +35,10 @@ minecraft {
 
         client {
             property 'forge.enabledGameTestNamespaces', mod_id
+            jvmArgs '-XX:+AllowEnhancedClassRedefinition', 
+            '-XX:HotswapAgent=core'
+//            , '-javaagent:/home/gangster/JRE21/lib/hotswap-agent.jar'
+
         }
 
         server {
