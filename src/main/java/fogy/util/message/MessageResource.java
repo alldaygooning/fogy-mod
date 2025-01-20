@@ -15,8 +15,8 @@ public class MessageResource {
 
 	public MessageResource(ResourceLocation resourceLocation) {
 		this.random = new Random();
-		try (InputStreamReader reader = new InputStreamReader(MessageResource.class
-				.getResourceAsStream("/data/" + resourceLocation.getNamespace() + "/messages/" + resourceLocation.getPath() + ".json"))) {
+		try (InputStreamReader reader = new InputStreamReader(MessageResource.class.getResourceAsStream(
+				"/data/" + resourceLocation.getNamespace() + "/messages/" + resourceLocation.getPath() + ".json"))) {
 			this.messages = JsonParser.parseReader(reader).getAsJsonObject();
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to load messages from " + resourceLocation, e);

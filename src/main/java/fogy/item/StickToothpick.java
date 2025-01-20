@@ -2,11 +2,14 @@ package fogy.item;
 
 import fogy.main.FogyMain;
 import fogy.registry.ItemRegistry;
+import fogy.registry.SoundRegistry;
 import fogy.util.Chatter;
+import fogy.util.SoundPlayer;
 import fogy.util.message.MessageManager;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -64,6 +67,7 @@ public class StickToothpick extends Item {
 			int duration = pStack.getUseDuration() - pRemainingUseDuration;
 			if (duration > 0 && duration % 20 == 0) { // Every second player rolls for an item drop
 				ObjectArrayList<ItemStack> treasures = this.rollForTreasure(pLevel, player);
+				playAmbientToothpickingSound(player);
 				if (treasures.size() != 0) {
 					this.awardTreasureTo(player, treasures);
 				}
@@ -83,16 +87,25 @@ public class StickToothpick extends Item {
 
 	private void awardTreasureTo(Player player, ObjectArrayList<ItemStack> treasures) {
 		for (ItemStack treasureItemStack : treasures) {
-			this.sendTreasureNotification(player, treasureItemStack);
+			this.displayTreasureNotificationMessage(player, treasureItemStack);
+			this.playTreasureNotificationSound(player);
 			if (!player.addItem(treasureItemStack)) {
 				player.drop(treasureItemStack, false);
 			}
 		}
 	}
 
-	private void sendTreasureNotification(Player player, ItemStack treasureItemStack) {
+	private void displayTreasureNotificationMessage(Player player, ItemStack treasureItemStack) {
 		MessageManager messageManager = new MessageManager(new ResourceLocation(FogyMain.MODID, MESSAGE_TABLE_NAME));
 		Chatter.sendChatMessageTo(player,
 				String.format(messageManager.getMessage(treasureItemStack.getDescriptionId())));
+	}
+
+	private void playTreasureNotificationSound(Player player) {
+		SoundPlayer.soundAtPlayerLocation(player, SoundEvents.VILLAGER_CELEBRATE);
+	}
+
+	private void playAmbientToothpickingSound(Player player) {
+		SoundPlayer.soundAtPlayerLocationVaried(player, SoundRegistry.TOOTHPICKING.get());
 	}
 }

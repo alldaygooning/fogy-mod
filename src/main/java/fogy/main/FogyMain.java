@@ -2,6 +2,7 @@ package fogy.main;
 
 import fogy.item.StickToothpick;
 import fogy.registry.ItemRegistry;
+import fogy.registry.SoundRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -17,8 +18,8 @@ public class FogyMain {
 		MinecraftForge.EVENT_BUS.register(this);
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-
 		ItemRegistry.setModEventBus(modEventBus);
+		SoundRegistry.setModEventBus(modEventBus);
 	}
 
 	private void registerItems() {
