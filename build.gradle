@@ -36,9 +36,8 @@ minecraft {
         client {
             property 'forge.enabledGameTestNamespaces', mod_id
             jvmArgs '-XX:+AllowEnhancedClassRedefinition', 
-            '-XX:HotswapAgent=core'
-//            , '-javaagent:/home/gangster/JRE21/lib/hotswap-agent.jar'
-
+            		'-XX:HotswapAgent=core'
+//            		'-javaagent:D:\\Java\\JRE17\\lib\\hotswap\\hotswap-agent.jar'
         }
 
         server {
