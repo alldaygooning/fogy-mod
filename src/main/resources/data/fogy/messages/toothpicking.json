@@ -1,0 +1,38 @@
+{
+    "item.minecraft.gold_nugget": [
+        "Ouch! I better put that back!",
+        "I found a nugget! Where did it come from?",
+        "I am rich!",
+        "Is this a treasure or just a snack?",
+        "I hope this isn't a tooth!",
+        "Gold! I can finally buy... I do not think this is worth anything.",
+        "This must be a sign of good luck!",
+        "I wonder if I can trade this for something better...",
+        "I should probably wash this before I eat it.",
+        "A nugget of gold? I’m feeling fancy!"
+    ],
+    "item.minecraft.rotten_flesh": [
+        "No wonder my Mom told me to floss...",
+        "My dentist would be truly disappointed.",
+        "What is all this gunk?!",
+        "This smells worse than I thought!",
+        "HAWK TUAH!",
+        "Is this even edible?",
+        "I hope this isn't what I think it is...",
+        "I should really clean my teeth more often.",
+        "I didn't eat that!",
+        "I can’t believe I found this in my mouth!"
+    ],
+    "item.minecraft.bone": [
+        "I need to chew harder next time...",
+        "Good thing I didn't swallow that!",
+        "A whole bone?!",
+        "Did I just find a dinosaur bone?",
+        "Oh ol'Nancy, you were delicious...",
+        "I hope this isn't a sign of bad dental hygiene.",
+        "I should probably see a dentist after this.",
+        "What kind of meal was I having?",
+        "How did it fit inside me?",
+        "I should at least buy a mouthwash or something..."
+    ]
+}
