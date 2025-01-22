@@ -19,7 +19,7 @@ public class SoundPlayer {
 		soundAtPlayerLocation(player, soundEvent, volume, pitch);
 	}
 
-	private static void soundAtPlayerLocation(Player player, SoundEvent soundEvent, float volume, float pitch) {
+	public static void soundAtPlayerLocation(Player player, SoundEvent soundEvent, float volume, float pitch) {
 		Level level = player.level();
 		level.playSound(null, player.getX(), player.getY(), player.getZ(), soundEvent, player.getSoundSource(), volume,
 				pitch);

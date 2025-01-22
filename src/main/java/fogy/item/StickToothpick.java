@@ -44,15 +44,13 @@ public class StickToothpick extends Item {
 		ItemStack itemstack = pPlayer.getItemInHand(pUsedHand);
 		if (pUsedHand == InteractionHand.MAIN_HAND) { // Currently only right-hand toothpicking is available
 			pPlayer.startUsingItem(pUsedHand);
-//			Chatter.sendChatMessageTo(pPlayer,
-//					String.format("%s: You have started using a toothpick!", pLevel.isClientSide ? "Client" : "Server"));
 		}
 		return InteractionResultHolder.consume(itemstack);
 	}
 
 	@Override
 	public UseAnim getUseAnimation(ItemStack pStack) { // To prevent Minecraft from applying default animations
-		return UseAnim.CUSTOM;
+		return UseAnim.NONE;
 	}
 
 	@Override
@@ -102,7 +100,8 @@ public class StickToothpick extends Item {
 	}
 
 	private void playTreasureNotificationSound(Player player) {
-		SoundPlayer.soundAtPlayerLocation(player, SoundEvents.VILLAGER_CELEBRATE);
+		SoundPlayer.soundAtPlayerLocation(player, SoundEvents.VILLAGER_CELEBRATE, 0.7f, 1f);
+		SoundPlayer.soundAtPlayerLocation(player, SoundEvents.ANVIL_BREAK);
 	}
 
 	private void playAmbientToothpickingSound(Player player) {

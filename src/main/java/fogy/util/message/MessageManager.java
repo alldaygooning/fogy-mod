@@ -17,7 +17,7 @@ public class MessageManager {
 		this.messageResource = new MessageResource(resourceLocation);
 	}
 
-	public String getMessage(String itemId) {
-		return messageResource.getMessage(itemId);
+	public String getMessage(String key) {
+		return messageResource.getMessage(key);
 	}
 }

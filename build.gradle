@@ -1,9 +1,9 @@
 plugins {
     id 'eclipse'
-    id 'idea'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'org.spongepowered.mixin' version '0.7.+'
 }
 
 version = mod_version
@@ -35,7 +35,8 @@ minecraft {
 
         client {
             property 'forge.enabledGameTestNamespaces', mod_id
-            jvmArgs '-XX:+AllowEnhancedClassRedefinition', 
+            jvmArgs '-Xmx6G',
+            		'-XX:+AllowEnhancedClassRedefinition', 
             		'-XX:HotswapAgent=core'
 //            		'-javaagent:D:\\Java\\JRE17\\lib\\hotswap\\hotswap-agent.jar'
         }
@@ -67,6 +68,7 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 tasks.named('processResources', ProcessResources).configure {
@@ -122,4 +124,9 @@ sourceSets.each {
     def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
     it.output.resourcesDir = dir
     it.java.destinationDirectory = dir
+}
+
+mixin {
+    add sourceSets.main, 'fogy.mixins.json'
+   	config 'fogy.mixins.json'
 }
