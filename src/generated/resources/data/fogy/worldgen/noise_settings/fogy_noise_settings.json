@@ -1,68 +1,61 @@
 {
-	"default_block": {
-		"Name": "minecraft:stone"
-	},
-	"default_fluid": {
-		"Name": "minecraft:water",
-		"Properties": {
-			"level": "0"
-		}
-	},
-	"sea_level": 63,
-	"disable_mob_generation": false,
-	"aquifers_enabled": false,
-	"ore_veins_enabled": false,
-	"legacy_random_source": false,
-	"noise": {
-		"min_y": -512,
-		"height": 1024,
-		"size_horizontal": 1,
-		"size_vertical": 1
-	},
-	"noise_router": {
-		"temperature": {
-			"type": "minecraft:shifted_noise",
-			"noise": "minecraft:temperature",
-			"shift_x": "minecraft:shift_x",
-			"shift_y": 0.0,
-			"shift_z": "minecraft:shift_z",
-			"xz_scale": 0.25,
-			"y_scale": 0.0
-		},
-		"vegetation": 0,
-		"continents": "fogy:overworld/continents",
-		"erosion": 0,
-		"depth": "fogy:overworld/depth",
-		"ridges": 0,
-		
-		
-		"barrier": 0,
-		"fluid_level_floodedness": 0,
-		"fluid_level_spread": 0,
-		"lava": 0,
-		"vein_toggle": 0,
-		"vein_ridged": 0,
-		"vein_gap": 0,
-		
-		
-		"initial_density_without_jaggedness": 0,
-		"final_density": {
-      "type": "minecraft:clamp",
-      "input": {
-        "type": "minecraft:noise",
-        "noise": "fogy:islands",
-        "xz_scale": 1,
-        "y_scale": 0
-      },
-      "min": 0,
-      "max": 1
+  "default_block": {
+    "Name": "minecraft:stone"
+  },
+  "default_fluid": {
+    "Name": "minecraft:water",
+    "Properties": {
+      "level": "0"
     }
-	},
-	"spawn_target": [],
-	"surface_rule": {
-		"type": "minecraft:block",
-		"result_state": {
-			"Name": "minecraft:stone"
-		}
-	}
+  },
+  "sea_level": 0,
+  "disable_mob_generation": true,
+  "aquifers_enabled": false,
+  "ore_veins_enabled": false,
+  "legacy_random_source": false,
+  "noise": {
+    "min_y": -256,
+    "height": 512,
+    "size_horizontal": 1,
+    "size_vertical": 1
+  },
+  "noise_router": {
+    "temperature": "fogy:overworld/temperature",
+    "vegetation": "fogy:overworld/vegetation",
+    "continents": "fogy:overworld/continents",
+    "erosion": 0,
+    "depth": "fogy:overworld/depth",
+    "ridges": 0,
+    "barrier": 0,
+    "fluid_level_floodedness": 0,
+    "fluid_level_spread": 0,
+    "lava": 0,
+    "vein_toggle": 0,
+    "vein_ridged": 0,
+    "vein_gap": 0,
+    "initial_density_without_jaggedness": 0,
+    "final_density": {
+      "type": "minecraft:add",
+      "argument1": {
+        "type": "minecraft:range_choice",
+        "input": {
+          "type": "minecraft:add",
+          "argument1": "fogy:overworld/terrain/island_stem",
+          "argument2": "fogy:overworld/terrain/island_cheese"
+        },
+        "min_inclusive": 2,
+        "max_exclusive": 2.001,
+        "when_in_range": 1,
+        "when_out_of_range": 0
+      },
+      "argument2": "fogy:overworld/terrain/floor"
+    }
+  },
+  "spawn_target": [],
+  "surface_rule": {
+    "type": "minecraft:block",
+    "result_state": {
+      "Name": "minecraft:stone"
+    }
+  }
 }
