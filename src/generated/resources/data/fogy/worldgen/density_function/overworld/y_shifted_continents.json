@@ -1,11 +1,15 @@
 {
   "type": "minecraft:add",
   "argument1": {
-    "type": "minecraft:y_clamped_gradient",
-    "from_y": -256,
-    "to_y": 256,
-    "from_value": 1.2,
-    "to_value": -1.2
+    "type": "minecraft:add",
+    "argument1": "fogy:overworld/continents",
+    "argument2": {
+      "type": "minecraft:y_clamped_gradient",
+      "from_y": -256,
+      "to_y": 256,
+      "from_value": -0.5,
+      "to_value": 0.05
+    }
   },
   "argument2": {
     "type": "minecraft:range_choice",

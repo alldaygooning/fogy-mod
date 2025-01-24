@@ -11,7 +11,7 @@
     },
     "argument2": {
       "type": "minecraft:noise",
-      "noise": "minecraft:gravel",
+      "noise": "fogy:floor",
       "xz_scale": 2.5,
       "y_scale": 0
     }
