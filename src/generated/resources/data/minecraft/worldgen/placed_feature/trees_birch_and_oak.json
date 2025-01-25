@@ -1,0 +1,12 @@
+{
+  "feature": "minecraft:trees_birch_and_oak",
+  "placement": [
+    {
+      "type": "minecraft:count_on_every_layer",
+      "count": 11
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}
