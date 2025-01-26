@@ -9,7 +9,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class SoundRegistry {
-	private static IEventBus modEventBus;
 
 	public static final DeferredRegister<SoundEvent> FOGY_SOUND_EVENTS = DeferredRegister
 			.create(ForgeRegistries.SOUND_EVENTS, FogyMain.MODID);
@@ -17,9 +16,7 @@ public class SoundRegistry {
 	public static final RegistryObject<SoundEvent> TOOTHPICKING = SoundRegistry.register("toothpicking");
 
 	public static void setModEventBus(IEventBus modEventBus) {
-		SoundRegistry.modEventBus = modEventBus;
-
-		FOGY_SOUND_EVENTS.register(SoundRegistry.modEventBus);
+		FOGY_SOUND_EVENTS.register(modEventBus);
 	}
 
 	private static RegistryObject<SoundEvent> register(String name) {

@@ -12,27 +12,25 @@ group = mod_group_id
 base {
     archivesName = mod_id
 }
+
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
     mappings channel: mapping_channel, version: mapping_version
-    
-    reobf = false
-    // enableEclipsePrepareRuns = true
     copyIdeResources = true
-    // generateRunFolders = true
-    
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
     runs {
+        // applies to all the run configs below
         configureEach {
             workingDirectory project.file('run')
-            // "SCAN": For mods scan.
-            // "REGISTRIES": For firing of registry events.
-            // "REGISTRYDUMP": For getting the contents of all registries.
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
         }
 
         client {
@@ -40,13 +38,13 @@ minecraft {
             jvmArgs '-Xmx6G',
             		'-XX:+AllowEnhancedClassRedefinition', 
             		'-XX:HotswapAgent=core'
-//            		'-javaagent:D:\\Java\\JRE17\\lib\\hotswap\\hotswap-agent.jar'
         }
 
         server {
             property 'forge.enabledGameTestNamespaces', mod_id
             args '--nogui'
         }
+
         gameTestServer {
             property 'forge.enabledGameTestNamespaces', mod_id
         }
@@ -62,14 +60,11 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-    // flatDir {
-    //     dir 'libs'
-    // }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
+		implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
@@ -91,14 +86,17 @@ tasks.named('processResources', ProcessResources).configure {
 tasks.named('jar', Jar).configure {
     manifest {
         attributes([
-            'Specification-Title'     : mod_id,
-            'Specification-Vendor'    : mod_authors,
-            'Specification-Version'   : '1', 
-            'Implementation-Title'    : project.name,
-            'Implementation-Version'  : project.jar.archiveVersion,
-            'Implementation-Vendor'   : mod_authors
+                'Specification-Title'     : mod_id,
+                'Specification-Vendor'    : mod_authors,
+                'Specification-Version'   : '1', 
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.jar.archiveVersion,
+                'Implementation-Vendor'   : mod_authors,
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+
+    finalizedBy 'reobfJar'
 }
 
 publishing {
@@ -115,7 +113,7 @@ publishing {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
+    options.encoding = 'UTF-8' 
 }
 
 eclipse {
@@ -129,6 +127,6 @@ sourceSets.each {
 }
 
 mixin {
-    add sourceSets.main, 'fogy.mixins.json'
+//    add sourceSets.main, 'fogy.mixins.json'
    	config 'fogy.mixins.json'
 }

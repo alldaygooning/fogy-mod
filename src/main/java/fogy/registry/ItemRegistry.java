@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public class ItemRegistry {
 	private static final String VANILLA_NAMESPACE = "minecraft";
@@ -29,7 +30,7 @@ public class ItemRegistry {
 		FOGY_ITEMS.register(itemName, itemSupplier);
 	}
 
-	public static void replaceItem(String itemName, Supplier<? extends Item> itemSupplier) {
-		VANILLA_REPLACEMENT_ITEMS.register(itemName, itemSupplier);
+	public static RegistryObject<Item> replaceItem(String itemName, Supplier<? extends Item> itemSupplier) {
+		return VANILLA_REPLACEMENT_ITEMS.register(itemName, itemSupplier);
 	}
 }

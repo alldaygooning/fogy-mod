@@ -16,16 +16,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraftforge.registries.RegistryObject;
 
 public class StickToothpick extends Item {
-	private static final Item PARENT_ITEM = Items.STICK;
 	private static final String LOOT_TABLE_NAME = "toothpicking";
 	private static final String MESSAGE_TABLE_NAME = "toothpicking";
 
@@ -33,10 +32,9 @@ public class StickToothpick extends Item {
 		super(pProperties);
 	}
 
-	public static void register() {
+	public static RegistryObject<Item> register() {
 		Properties properties = new Properties();
-		properties.stacksTo(PARENT_ITEM.getMaxStackSize());
-		ItemRegistry.replaceItem("stick", () -> new StickToothpick(properties));
+		return ItemRegistry.replaceItem("stick", () -> new StickToothpick(properties));
 	}
 
 	@Override
