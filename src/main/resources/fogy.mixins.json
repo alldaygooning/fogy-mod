@@ -3,7 +3,10 @@
 	"package": "fogy.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"NoiseBasedChunkGeneratorMixin"
+		"NoiseBasedChunkGeneratorMixin",
+		"BambooFeatureMixin",
+		"CocoaDecoratorMixin",
+		"BeehiveDecoratorMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

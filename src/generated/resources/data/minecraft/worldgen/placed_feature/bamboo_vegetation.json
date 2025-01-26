@@ -1,0 +1,16 @@
+{
+  "feature": "minecraft:bamboo_vegetation",
+  "placement": [
+    {
+      "type": "minecraft:count_on_every_layer",
+      "count": 25
+    },
+    {
+      "type": "minecraft:surface_water_depth_filter",
+      "max_water_depth": 0
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}
