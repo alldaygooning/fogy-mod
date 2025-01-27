@@ -55,8 +55,7 @@ public class BambooFeatureMixin extends Feature<ProbabilityFeatureConfiguration>
 							int j1 = l - blockpos.getX();
 							int k1 = i1 - blockpos.getZ();
 							if (j1 * j1 + k1 * k1 <= k * k) {
-								blockpos$mutableblockpos1.set(l,
-										blockpos.getY() - 1, i1);
+								blockpos$mutableblockpos1.set(l, blockpos.getY() - 1, i1);
 								if (isDirt(worldgenlevel.getBlockState(blockpos$mutableblockpos1))) {
 									worldgenlevel.setBlock(blockpos$mutableblockpos1, Blocks.PODZOL.defaultBlockState(),
 											2);
