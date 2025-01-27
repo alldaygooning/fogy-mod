@@ -77,13 +77,73 @@
     }
 ```
 а именно:  
-`"type": "fogy:fogy_overworld"` - указывает, что тип измерения определен в [fogy_overworld.json](src/generated/resources/data/fogy/dimension_type/fogy_overworld.json)  
-` "settings": "fogy:fogy_noise_settings"` - указывать, что настройки шума определны в [fogy_noise_settings.json](src/generated/resources/data/fogy/worldgen/noise_settings/fogy_noise_settings.json)
+`"type": "fogy:fogy_overworld"` - указывает, что тип измерения определен в [fogy_overworld.json](src/generated/resources/data/fogy/dimension_type/fogy_overworld.json);  
+` "settings": "fogy:fogy_noise_settings"` - указывать, что настройки шума определны в [fogy_noise_settings.json](src/generated/resources/data/fogy/worldgen/noise_settings/fogy_noise_settings.json);
 
 ### Тип измерения
 По больше части остался без изменений, за исключением трех строк:  
-`"logical_height": 512` - "логическая высота", используется для вычисления места, куда порталы могут перенести игрока в рамках этого измерения;  
+`"logical_height": 512` - "логическая высота", используется для вычисления места, куда порталы могут перенести игрока в рамках этого измерения, например, в аду логическая высота меньше, чем высота строительства - поэтому порталы над потолком ада строить можно, но ни один портал не переместит игрока в пространство над потолком;  
 `"min_y": -256` - координата y дна измерения;  
 `"height": 512` - максимальная высота, считая от дна мира, где можно ставить блоки;  
 
 ## Шум и его настройки
+Шум - пожалуй, самая важная концепция в этой теме. Вся генерация Майнкрафта завязана на шуме, а именно на трехмерном шуме Перлина. Все использованные мной шумы расположены в [noise](src/generated/resources/data/fogy/worldgen/noise). У шума Перлина есть такие настройки, как амплитуды (параметер amplitudes) и октавы (задается с помощью первой октавы - firstOctave). Не вдаваясь глубоко в вычисления:  
+- Больше амплитуд = больше шумовых пятен
+- Больше значение амплитуды = более зернистый шум
+- Больше значение первой октавы = более мелкие шумовые пятна
+Шум Перлина в Майнкрафте именно трехмерный (это следует понять, потому что большая часть инструментов, визуализирующих шум Перлина, представляют его в виде двумерной карты - поэтому такой шум на картинке и в игре будет сильно отличаться!).
+
+Смысл всех настроек в [fogy_noise_settings.json](src/generated/resources/data/fogy/worldgen/noise_settings/fogy_noise_settings.json) понятен из их названия, за исключением двух: `noise_router` и `surface_rule`.
+
+### Noise Router
+`noise_router` состоит из набора функций плотности. Функции плотности могут быть описаны как внутри [fogy_noise_settings.json](src/generated/resources/data/fogy/worldgen/noise_settings/fogy_noise_settings.json), так и в файлах внутри [density_function](src/generated/resources/data/fogy/worldgen/density_function). Функция плотности - это функция, которая по результату некоторых математических операций (обычно над шумом или градиентом) возвращает одно значение (обычно число с плавающей запятой от -1 до 1). Каждый ключ в `noise_router` отвечает за поределенную настройку генерации ландшафта.
+#### Final Density
+Главная функция плотности. Рассчитывается для каждого набора координат (x, y, z) в мире.  
+Если для набора координат это функция возвращает положительное значение - на этих координатах будет стоять `default_block`, если же неположительное - блок воздуха (`minecraft:air`). Поскольку это ключевая функция в создании ландшафта, то разберу её подробно:
+
+```
+"final_density": {
+      "type": "minecraft:add",
+      "argument1": {
+        "type": "minecraft:range_choice",
+        "input": {
+          "type": "minecraft:add",
+          "argument1": "fogy:overworld/terrain/island_stem" (1),
+          "argument2": "fogy:overworld/terrain/island_cheese" (2)
+        },
+        "min_inclusive": 2,
+        "max_exclusive": 2.001,
+        "when_in_range": 1,
+        "when_out_of_range": 0
+      },
+      "argument2": "fogy:overworld/terrain/floor"
+    }
+```
+1. [island_cheese](src/generated/resources/data/fogy/worldgen/density_function/terrain/island_cheese.json) - функция плотности, которая генерирует вырезанные пещеры. Выглядит следующим образом:
+```
+{
+	"type": "minecraft:range_choice", (3)
+	"input": {
+		"type": "minecraft:clamp", (2)
+		"input": {
+			"type": "minecraft:noise", (1)
+			"noise": "fogy:island_cheese",
+			"xz_scale": 2,
+			"y_scale": 2
+		},
+		"min": -1,
+		"max": 1
+	},
+	"min_inclusive": 0,
+	"max_exclusive": 1.001,
+	"when_in_range": 1,
+	"when_out_of_range": 0
+}
+```
+1.1 Берется шум (зернистости и плотности, которой я выбрал), растягивается горизонтально и вертикально в два раза (чтобы увеличить объем пещер).  
+1.2 В каждой своей точке этот шум принимает какие-то значения. Чтобы получить значения, с которыми удобно работать - шум нормализуется. Все его значения от меньшего к большему линейно сопоставляются значениям от -1 до 1.
+1.3 Если значение шума в точке от 0 до 1, то назначить значение в этой точке - 1, в противном случае - 0. 
+
+То есть эта функция плотности производит шум, который наполняет весь мир случайными пещерами.
+![Пролетка по пещерному миру](readme_assets/island_cheese_fly.mp4)
+### Surface Rule
